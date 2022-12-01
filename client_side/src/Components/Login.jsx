@@ -1,31 +1,46 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import axios from "axios"
+import {useNavigate} from "react-router-dom"
+import { AuthContext } from './AuthContext/AuthContext';
 
 
 const Login = () => {
-    const [inputData, setInputData] = React.useState({
-        email:"",
-        password:"",
-    })
-
-    const [email, setEmail] = React.useState("")
-    const [password, setPassword] = React.useState("");
-
-    // const [email, password] = inputData
+    const navigate = useNavigate()
+    const initialData = {
+        email: "",
+        password: ""
+    }
+    const [formData, setFormData] = React.useState(initialData)
 
 
-    const handleChange = (e)=>{
-        setInputData(e.target.value)
-        console.log(inputData)
+    const handleChange = (e) => {
+        const { value, name } = e.target;
+        setFormData({ ...formData, [name]: value })
+        console.log(formData)
     }
 
-    const handleLogin =(e)=>{
+
+    const handleLogin = async (e) => {
         e.preventDefault()
+       const data = await axios.post("http://localhost:8080/auth/login", formData)
+            // .then((res) => {
+            //     // console.log(res.message)
+            //     console.log(res.data)
+            // })
+        if(data.data.token){
+            localStorage.setItem("jwtToken", JSON.stringify(data.data.token))
+            
+        }
+            
+
+        console.log(data.data.token)
+        navigate("/profile")
     }
 
 
@@ -56,13 +71,13 @@ const Login = () => {
                         padding: "20px"
                     }}>
 
-                    
+
                     <Grid xs={12}>
                         <TextField id="outlined-basic"
                             fullWidth
                             required
                             name='email'
-                            value={email}
+                            // value={email}
                             onChange={handleChange}
                             type="email"
                             label="Email" variant="outlined" />
@@ -72,21 +87,20 @@ const Login = () => {
                             fullWidth
                             required
                             name='password'
-                            value={password}
+                            // value={password}
                             onChange={handleChange}
                             // minRows={10}
                             type="password"
                             label="Password" variant="outlined" />
                     </Grid>
                     <Grid xs={12}>
-                    <Button
-                        type='submit'
-                        onClick={handleLogin}
-                        variant="contained"
-                        fullWidth
-                        disableElevation>
-                        Login
-                    </Button>
+                        <Button
+                            type='submit'
+                            variant="contained"
+                            fullWidth
+                            disableElevation>
+                            Login
+                        </Button>
                     </Grid>
 
                 </Grid>
