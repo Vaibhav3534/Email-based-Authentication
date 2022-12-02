@@ -4,7 +4,8 @@ const checkAuth = async(req, res, next)=>{
 
     const token = req.cookies.token;
     if(!token){
-        return new Error
+        // return new Error
+        res.send("no token")
     }
     try { 
         jwt.verify(token,process.env.SECRETE_KEY )
@@ -15,7 +16,7 @@ const checkAuth = async(req, res, next)=>{
     } catch (error) {
         console.log(error)
         
-        throw new Error
+        // throw new Error
     }
 }
 

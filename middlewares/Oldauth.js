@@ -23,8 +23,8 @@ authRouter.post("/register", async (req, res) => {
 
         if (userCheck) {
             // console.log(res.send("hello"))
-            throw new Error('User already exists')
-            // return res.status(201).send({success:false, message:"Email already Registered"})
+            // throw new Error('User already exists')
+            return res.status(201).send({success:false, message:"Email already Registered"})
 
         }
         const user = User(req.body);
