@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import connection from "./config/db.js"
 import authRouter from "./middlewares/Oldauth.js";
-import { verifyMail } from "./middlewares/Oldauth.js";
+// import { verify } from "./middlewares/Oldauth.js";
 import cookieParser from "cookie-parser"
 import jwt from "jsonwebtoken"
 import checkAuth from "./middlewares/authMiddleware.js";
@@ -44,7 +44,7 @@ app.get("/", checkAuth, (req, res)=>{
 })
 // app.use("/home", )
 
-app.get("/verify", verifyMail)
+// app.use("/verify", verify)
 
 const port = 8080;
 

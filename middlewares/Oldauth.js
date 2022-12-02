@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken"
 
 
 const authRouter = express.Router()
+const verify = express.Router()
 authRouter.use(cookieParser())
 
 const User = userModel
@@ -34,11 +35,13 @@ authRouter.post("/register", async (req, res) => {
         user.password = encryptedPassword
 
         // const token = await user.generateAuthToken()
-        // console.log(token)
-        // user.save()
+        console.log(user._id)
+        await user.save()
+        // const userData = await User.findOne({email:email})
 
         // sendVerifyMail()
-        await sendVerifyMail(user.first_name, user.email, user._id)
+        console.log("first")
+        await sendVerifyMail(user.first_name, user.email, user._id.toJSON())
 
         return res.status(201).send({ success: true, message: "Registered successfully" })
 
@@ -96,6 +99,7 @@ async function validatePassword(password, hashed) {
 }
 
 const sendVerifyMail = async (name, email, id) => {
+    console.log(id)
     try {
 
         const transporter = nodemailer.createTransport({
@@ -113,7 +117,7 @@ const sendVerifyMail = async (name, email, id) => {
             to: email,
             subject: "VERIFICATION MAIL",
             text: `Hi ${name} this is a verification mail`,
-            html: `<h1> Hi ${name}, Please click here to <a  href="http://localhost:8080/verify?id=${id}" target="_blank">Verify</a> your mail</h1>`
+            html: `<h1> Hi ${name}, Please click here to <a  href="http://localhost:8080/auth?id=${id}" target="_blank">Verify</a> your mail</h1>`
         }
 
         const info = await transporter.sendMail(mail)
@@ -126,7 +130,19 @@ const sendVerifyMail = async (name, email, id) => {
 }
 
 
-const verifyMail = async (req, res) => {
+// const verifyMail = async (req, res) => {
+//     try {
+//         console.log(req.query.id)
+//         const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
+//         console.log(updatedData)
+//         res.render("verifiedEmail")
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+authRouter.get("/", async(req, res)=>{
     try {
         console.log(req.query.id)
         const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
@@ -136,8 +152,7 @@ const verifyMail = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-
-}
+})
 
 export default authRouter
-export { verifyMail }
+// export {verify}
