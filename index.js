@@ -40,7 +40,7 @@ app.get("*", function(_, res){
 app.use("/auth", authRouter)
 
 app.get("/", checkAuth, (req, res)=>{
-    
+    console.log("auth passed")
 })
 // app.use("/home", )
 

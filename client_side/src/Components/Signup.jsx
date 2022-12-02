@@ -71,7 +71,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const { email, password, first_name, last_name } = inputData
-
+        console.log("test")
         if (email !== "" && password !== "" && first_name !== "" && last_name !== "") {
             await axios.post("http://localhost:8080/auth/register", inputData)
                 .then((res) => {
@@ -82,7 +82,7 @@ const Signup = () => {
                         toast("hello")
                         alert(res.data.message)
                         
-                        
+                        console.log("first")
                         navigate("/login")
                     }else{
                         // alert(res.data.message)

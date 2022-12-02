@@ -6,6 +6,7 @@ import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config()
 import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken"
 
 
 
@@ -50,6 +51,7 @@ authRouter.post("/register", async (req, res) => {
 })
 
 authRouter.post("/login", async (req, res) => {
+    console.log("test")
     try {
         const { email, password } = req.body
         const user = await User.findOne({ email: email })
@@ -63,8 +65,9 @@ authRouter.post("/login", async (req, res) => {
             return res.send({ message: "Email not verified" })
         }
         if (await validatePassword(password, user.password) === true && user.verified == true) {
+            console.log("yump")
             const token = generateAuthToken((user._id).toJSON());
-
+            console.log("last")
             return res
                 .status(201)
                 .cookie("token", token, {
