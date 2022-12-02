@@ -28,7 +28,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-       const data = await axios.post("http://localhost:8080/auth/login", formData)
+       const data = await axios.post("/auth/login", formData)
             // .then((res) => {
             //     // console.log(res.message)
             //     console.log(res.data)

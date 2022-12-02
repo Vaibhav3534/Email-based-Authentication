@@ -50,7 +50,7 @@ const Signup = () => {
     }
 
     const fetch = async(inputData)=>{
-        await axios.post("http://localhost:8080/auth/register", inputData)
+        await axios.post("/auth/register", inputData)
     //     .then((res) => {
     //                 // console.log(res)
     //                 // return alert(res.data.message)
@@ -73,7 +73,7 @@ const Signup = () => {
         const { email, password, first_name, last_name } = inputData
         console.log("test")
         if (email !== "" && password !== "" && first_name !== "" && last_name !== "") {
-            await axios.post("http://localhost:8080/auth/register", inputData)
+            await axios.post("/auth/register", inputData)
                 .then((res) => {
                     console.log(res)
                     // return alert(res.data.message)
