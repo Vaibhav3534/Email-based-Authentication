@@ -20,9 +20,9 @@ app.use(cors())
 app.use(cookieParser())
 
 //serving the frontend (Cyclic deploy)
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = path.dirname(__filename)
-// app.use(express.static(path.join(__dirname,"./client_side/build")));
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+app.use(express.static(path.join(__dirname,"./client_side/build")));
 
 app.get("*", function(_, res){
     res.sendFile(
