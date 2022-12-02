@@ -28,7 +28,7 @@ app.get("*", function(_, res){
     res.sendFile(
         path.join(__dirname, "./client_side/build/index.html"),
         function(err){
-            res.status(500).end(err)
+            res.status(500).send(err)
         }
     )
 })
