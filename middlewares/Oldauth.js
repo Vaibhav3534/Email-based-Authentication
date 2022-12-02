@@ -142,17 +142,17 @@ const sendVerifyMail = async (name, email, id) => {
 //     }
 // }
 
-authRouter.get("/", async(req, res)=>{
-    try {
-        console.log(req.query.id)
-        const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
-        console.log(updatedData)
-        res.render("verifiedEmail")
+// authRouter.get("/", async(req, res)=>{
+//     try {
+//         console.log(req.query.id)
+//         const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
+//         console.log(updatedData)
+//         res.render("verifiedEmail")
 
-    } catch (error) {
-        console.log(error)
-    }
-})
+//     } catch (error) {
+//         console.log(error)
+//     }
+// })
 
 export default authRouter
 // export {verify}
