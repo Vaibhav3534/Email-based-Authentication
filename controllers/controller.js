@@ -1,31 +1,27 @@
-import express, { response } from "express";
+import express from "express";
 import userModel from "../models/userModel.js";
-import brcryt from "bcryptjs"
-import bcrypt from "bcryptjs/dist/bcrypt.js";
+import bcrypt from "bcryptjs"
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
-dotenv.config()
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken"
 
-
-
-
+dotenv.config()
 const authRouter = express.Router()
-const verify = express.Router()
+
 authRouter.use(cookieParser())
 
 const User = userModel
 
+// Creating Register user API
 authRouter.post("/register", async (req, res) => {
     const { email, password } = req.body;
     try {
         const userCheck = await User.exists({ email: email })
 
         if (userCheck) {
-            // console.log(res.send("hello"))
             // throw new Error('User already exists')
-            return res.status(201).send({success:false, message:"Email already Registered"})
+            return res.status(201).send({ success: false, message: "Email already Registered" })
 
         }
         const user = User(req.body);
@@ -37,15 +33,11 @@ authRouter.post("/register", async (req, res) => {
         // const token = await user.generateAuthToken()
         console.log(user._id)
         await user.save()
-        // const userData = await User.findOne({email:email})
 
-        // sendVerifyMail()
         console.log("first")
         await sendVerifyMail(user.first_name, user.email, user._id.toJSON())
 
         return res.status(201).send({ success: true, message: "Registered successfully" })
-
-
 
     } catch (error) {
         console.log(error)
@@ -53,51 +45,68 @@ authRouter.post("/register", async (req, res) => {
     }
 })
 
+
+// Creating Login Api 
 authRouter.post("/login", async (req, res) => {
-    console.log("test")
+    console.log("Entered login api")
     try {
         const { email, password } = req.body
         const user = await User.findOne({ email: email })
+        console.log(user)
 
         if (!user) {
-            console.log("first")
-            return res.status(400).json({ success: false, message: "User not registered! Please Register" })
+            console.log("No user found")
+            return res
+                .status(400)
+                .send({ success: false, message: "User not registered! Please Register" })
         }
 
         if (!user.verified) {
-            return res.send({ message: "Email not verified" })
+            return res
+                .status(202)
+                .send({ success: false, message: "Email not verified" })
         }
         if (await validatePassword(password, user.password) === true && user.verified == true) {
-            console.log("yump")
+            console.log("About to generate token")
             const token = generateAuthToken((user._id).toJSON());
-            console.log("last")
+            console.log("Generated token and exited login api")
+            delete user.password
+            console.log(user.password)
             return res
-                .status(201)
                 .cookie("token", token, {
                     maxAge: 2 * 60 * 60 * 1000,
                     httpOnly: true,
                 })
-                .send({ success: true, token: token, message: "Login successfull", user: user })
+                .status(201)
+                .send({ success: true, token: token, message: "Login successfull", user:user})
+        }else{
+            return res.status(201).send({success:false, message:"Wrong password"})
         }
 
-
     } catch (error) {
+        console.log(error)
         res.status(201).send(error.message)
     }
 })
 
+
+//Function to create Token for Aurhorization
 const generateAuthToken = function (user) {
     const token = jwt.sign({ user }, process.env.SECRETE_KEY, {
-        expiresIn: "10s"
+        expiresIn: "60s"  //validity of JWT token
     })
 
     return token;
 }
 
+
+//Function to validate the Hashed Password
 async function validatePassword(password, hashed) {
     return await bcrypt.compare(password, hashed)
 }
 
+
+//Funtion to Send Verification Mail to User
 const sendVerifyMail = async (name, email, id) => {
     console.log(id)
     try {
@@ -121,38 +130,27 @@ const sendVerifyMail = async (name, email, id) => {
         }
 
         const info = await transporter.sendMail(mail)
-
         console.log(info.response)
 
     } catch (error) {
         console.log(error)
+        res.send(err)
     }
 }
 
 
-// const verifyMail = async (req, res) => {
-//     try {
-//         console.log(req.query.id)
-//         const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
-//         console.log(updatedData)
-//         res.render("verifiedEmail")
+//API to verify mail and render webpage
+authRouter.get("/", async (req, res) => {
+    try {
+        console.log(req.query.id)
+        const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
+        console.log(updatedData)
+        res.render("verifiedEmail")
 
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
-// authRouter.get("/", async(req, res)=>{
-//     try {
-//         console.log(req.query.id)
-//         const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
-//         console.log(updatedData)
-//         res.render("verifiedEmail")
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 export default authRouter
-// export {verify}
+

@@ -1,59 +1,59 @@
 import express from "express"
 import cors from "cors"
 import connection from "./config/db.js"
-import authRouter from "./middlewares/Oldauth.js";
-// import { verify } from "./middlewares/Oldauth.js";
+import authRouter from "./controllers/controller.js";
 import cookieParser from "cookie-parser"
-import jwt from "jsonwebtoken"
 import checkAuth from "./middlewares/authMiddleware.js";
-import path from "path";
+import dotenv from "dotenv";
 import { fileURLToPath } from 'url';  //for cyclic deploy
 
+dotenv.config()
 
 const app = express();
 app.set('view engine', 'ejs');
 
 
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+}))
 app.use(cookieParser())
 
-//serving the frontend (Cyclic deploy)
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-app.use(express.static(path.join(__dirname,"./client_side/build")));
 
-app.get("/", function(_, res){
-    res.sendFile(
-        path.join(__dirname, "./client_side/build/index.html"),
-        // function(err){
-        //     res.status(500).send(err)
-        // }
-    )
+app.get("/", (req, res) => {
+    res.send("This is Api Route")
 })
 
-
-// app.get("/", (req, res)=>{
-//     res.send("heyy")
-// })
 app.use("/auth", authRouter)
 
-app.get("/", checkAuth, (req, res)=>{
-    console.log("auth passed")
+//check Authorized user
+app.post("/check", checkAuth, (err, res) => {
+    // console.log(req.body.token)
+    if (res) {
+        console.log("auth passed")
+        res
+            .status(201)
+            .send({success:true, message: "Authorized" })
+    }
+    else {
+        console.log(err)
+        res.send(err)
+        // throw new Error
+    }
 })
-// app.use("/home", )
 
-// app.use("/verify", verify)
 
-const port = 8080;
 
-app.listen(port, async(req, res)=>{
+// console.log(port)
+const port = 8080
+app.listen(port, async (req, res) => {
     try {
         await connection;
         console.log("connected to database")
     } catch (error) {
-        console.log(error)
+        console.log("error.message")
     }
 })
 

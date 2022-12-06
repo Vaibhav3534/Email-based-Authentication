@@ -1,22 +1,29 @@
 import jwt from "jsonwebtoken"
+// import cookieParser from "cookie-parser";
 
-const checkAuth = async(req, res, next)=>{
 
-    const token = req.cookies.token;
-    if(!token){
-        // return new Error
-        res.send("no token")
-    }
-    try { 
-        jwt.verify(token,process.env.SECRETE_KEY )
+const checkAuth = (req, res, next) => {
+
+    try {
+        const token = req.body.token;
+        console.log(token)
+
+        if (!token || token === undefined) {
+            return res
+                .status(202)
+                .send({success:false,message:"No token Provided"})
+        }
+
+        jwt.verify(token, process.env.SECRETE_KEY)
         const data = jwt.decode(token)
-
+        console.log("first")
         next()
 
-    } catch (error) {
-        console.log(error)
-        
-        // throw new Error
+    } catch (err) {
+        console.log(err.message)
+        res
+            // .status(401)
+            .send({ success:false,message:err.message})
     }
 }
 

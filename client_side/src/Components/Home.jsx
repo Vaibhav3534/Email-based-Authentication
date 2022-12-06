@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
-import Profile from './Profile';
+
 
 
 const Home =() => {
@@ -19,9 +19,6 @@ const Home =() => {
         
         navigate("/login")
     }
-
-        
-
 
         return (
             <Grid

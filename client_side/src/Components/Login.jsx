@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
@@ -6,11 +6,15 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from "axios"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { AuthContext } from './AuthContext/AuthContext';
-
+import toast, { Toaster } from "react-hot-toast"
 
 const Login = () => {
+    const [loading, setLoading] = useState(false)
+    const [isLoggedin, setIsloggedin]= useState(false)
+
+
     const navigate = useNavigate()
     const initialData = {
         email: "",
@@ -28,20 +32,30 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-       const data = await axios.post("/auth/login", formData)
-            // .then((res) => {
-            //     // console.log(res.message)
-            //     console.log(res.data)
-            // })
-        if(data.data.token){
-            localStorage.setItem("jwtToken", JSON.stringify(data.data.token))
-            
-        }
-            
 
-        console.log(data.data.token)
-        navigate("/profile")
+        setLoading(true)
+        const data = await axios.post("http://localhost:8080/auth/login", formData, { withCredentials: true })
+        setLoading(false)
+
+        if(data.data.token){
+            localStorage.setItem("token", JSON.stringify(data.data.token))
+        }
+        
+        console.log(data.data.user)
+        if (data.data.success) {
+            setIsloggedin(true)
+            setTimeout(() => {
+                
+            }, 2000)
+            
+            toast.success(data.data.message)
+
+        } else {
+            toast.error(data.data.message)
+        }
     }
+
+
 
 
     return (
@@ -53,6 +67,7 @@ const Login = () => {
             justifyContent="center"
             style={{ minHeight: '100vh' }}
         >
+            <Toaster />
             <form onSubmit={handleLogin} style={{ "margin": "auto" }}>
                 <Grid container spacing={2}
                     sx={{

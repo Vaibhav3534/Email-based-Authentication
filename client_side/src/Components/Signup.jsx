@@ -73,7 +73,7 @@ const Signup = () => {
         const { email, password, first_name, last_name } = inputData
         console.log("test")
         if (email !== "" && password !== "" && first_name !== "" && last_name !== "") {
-            await axios.post("/auth/register", inputData)
+            await axios.post("http://localhost:8080/auth/register", inputData)
                 .then((res) => {
                     console.log(res)
                     // return alert(res.data.message)
@@ -92,22 +92,6 @@ const Signup = () => {
 
                     // setStatus(res.data.success)
                 })
-
-                // await toast.promise( fetch(inputData), {
-                //     loading:`Registering...Please wait`,
-                //     success:(data) =>( `Registered successfully...Please verify email`),
-                //     error: "Error when fetching",
-                //   },
-                //   {
-                //     style: {
-                //       minWidth: '250px',
-                //     },
-                //     success: {
-                //       duration: 3000,
-                //       icon: '🔥',
-                //     },
-                //   });
-                
                 e.target.reset()
         }
 

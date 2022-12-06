@@ -2,9 +2,8 @@ import React, { createContext, useState } from 'react'
 export const AuthContextF = createContext();
 
 const AuthContext = ({ children }) => {
-    const userToken = JSON.parse(localStorage.getItem("jwtToken")) || false
-    const [isAuth, setIsAuth] = React.useState(userToken)
-
+    
+    const [isAuth, setIsAuth] = React.useState()
     const handleAuth = (value) => {
         setIsAuth(value)
     }
