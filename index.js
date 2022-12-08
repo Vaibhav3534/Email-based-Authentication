@@ -25,13 +25,13 @@ const __filename = fileURLToPath(import.meta.url);
 // 👇️ "/home/john/Desktop/javascript"
 const __dirname = path.dirname(__filename)
 
-app.use(express.static(path.join(__dirname, "./client_side/build")))
-app.get("*", function(_, res){
-    res.sendFile(path.join(__dirname, "./client_side/build/index.html"),
-    function(err){
-        res.send(err)
-    })
+app.use(express.static("./client_side/build"))
+
+
+app.get("*", function(req, res){
+    res.sendFile(path.resolve(__dirname, "client_side", "build", "index.html"))
 })
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 // app.use(cors({
@@ -62,7 +62,6 @@ app.post("/check", checkAuth, (err, res) => {
     else {
         console.log(err)
         res.send(err)
-        // throw new Error
     }
 })
 
