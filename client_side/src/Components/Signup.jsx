@@ -60,7 +60,7 @@ const Signup = () => {
                 setStatus(true)
                 console.log(status)
                 const data = await trackPromise(
-                    axios.post("/auth/register", inputData))
+                    axios.post("/api/auth/register", inputData))
                 // toast.loading()
 
                 setStatus(false)

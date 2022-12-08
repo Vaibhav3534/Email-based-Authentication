@@ -22,7 +22,7 @@ const Profile = () => {
   console.log("token  " + token)
 
   const getData = async (token) => {
-    const data = await axios.post("/check", { "token": token },)
+    const data = await axios.post("/api/check", { "token": token },)
 
     console.log(data.data.success)
     setStatus(data.data.success)
