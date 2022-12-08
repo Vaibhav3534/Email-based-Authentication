@@ -7,12 +7,15 @@ import checkAuth from "./middlewares/authMiddleware.js";
 import dotenv from "dotenv";
 import { fileURLToPath } from 'url';  //for cyclic deploy
 import userModel from "./models/userModel.js"
+import mongoose from "mongoose";
 
 const user = userModel
 
 dotenv.config()
 
+
 const app = express();
+mongoose.set('strictQuery', true);
 app.set('view engine', 'ejs');
 
 
@@ -23,6 +26,7 @@ app.use(cors({
     origin: "http://localhost:3000",
 }))
 app.use(cookieParser())
+
 
 
 app.get("/", (req, res) => {

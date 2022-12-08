@@ -60,7 +60,7 @@ const Signup = () => {
                 setStatus(true)
                 console.log(status)
                 const data = await trackPromise(
-                    axios.post("http://localhost:8080/auth/register", inputData))
+                    axios.post("https://apppp.onrender.com/auth/register", inputData))
                 // toast.loading()
 
                 setStatus(false)
@@ -76,6 +76,7 @@ const Signup = () => {
 
                 }
                 else {
+                    console.log("error")
                     toast.error(data.data.message)
                 }
                 e.target.reset()
