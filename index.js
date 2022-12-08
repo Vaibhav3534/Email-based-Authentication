@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser"
 import checkAuth from "./middlewares/authMiddleware.js";
 import dotenv from "dotenv";
 import { fileURLToPath } from 'url';  //for cyclic deploy
+import userModel from "./models/userModel.js"
+
+const user = userModel
 
 dotenv.config()
 
@@ -30,9 +33,10 @@ app.use("/auth", authRouter)
 
 //check Authorized user
 app.post("/check", checkAuth, (err, res) => {
-    // console.log(req.body.token)
+    
     if (res) {
         console.log("auth passed")
+        console.log()
         res
             .status(201)
             .send({success:true, message: "Authorized" })
@@ -45,6 +49,25 @@ app.post("/check", checkAuth, (err, res) => {
 })
 
 
+//post api for addition
+app.post("/add", async(req, res)=>{
+    const {num1, num2} = req.body.input
+    console.log("into api", req.body)
+    console.log(num1)
+    try {
+        const sum = parseInt(num1) + parseInt(num2)
+        console.log(sum)
+        // await user.save()
+    
+        return res
+            .status(201)
+            .send({sum: sum, message:"the sum is calculated"})
+
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+})
+
 
 // console.log(port)
 const port = 8080
@@ -53,7 +76,7 @@ app.listen(port, async (req, res) => {
         await connection;
         console.log("connected to database")
     } catch (error) {
-        console.log("error.message")
+        console.log(error.message)
     }
 })
 

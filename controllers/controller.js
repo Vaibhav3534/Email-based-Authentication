@@ -22,11 +22,11 @@ authRouter.post("/register", async (req, res) => {
         if (userCheck) {
             // throw new Error('User already exists')
             return res.status(201).send({ success: false, message: "Email already Registered" })
-
         }
+
         const user = User(req.body);
 
-        const encryptedPassword = await brcryt.hash(password, 12)
+        const encryptedPassword = await bcrypt.hash(password, 12)
 
         user.password = encryptedPassword
 
@@ -37,7 +37,7 @@ authRouter.post("/register", async (req, res) => {
         console.log("first")
         await sendVerifyMail(user.first_name, user.email, user._id.toJSON())
 
-        return res.status(201).send({ success: true, message: "Registered successfully" })
+        return res.status(201).send({ success: true, message: "Registered successfully. Please check your mail" })
 
     } catch (error) {
         console.log(error)
@@ -70,15 +70,18 @@ authRouter.post("/login", async (req, res) => {
             console.log("About to generate token")
             const token = generateAuthToken((user._id).toJSON());
             console.log("Generated token and exited login api")
-            delete user.password
-            console.log(user.password)
+            
+            const userData = {
+                name: `${user.first_name} ${user.last_name}`,
+                email: user.email
+            }
             return res
                 .cookie("token", token, {
                     maxAge: 2 * 60 * 60 * 1000,
                     httpOnly: true,
                 })
                 .status(201)
-                .send({ success: true, token: token, message: "Login successfull", user:user})
+                .send({ success: true, token: token, message: "Login successfull", user:userData})
         }else{
             return res.status(201).send({success:false, message:"Wrong password"})
         }

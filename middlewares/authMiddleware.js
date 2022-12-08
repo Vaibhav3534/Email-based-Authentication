@@ -16,7 +16,8 @@ const checkAuth = (req, res, next) => {
 
         jwt.verify(token, process.env.SECRETE_KEY)
         const data = jwt.decode(token)
-        console.log("first")
+        console.log(data)
+
         next()
 
     } catch (err) {

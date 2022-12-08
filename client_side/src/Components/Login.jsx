@@ -9,10 +9,12 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from './AuthContext/AuthContext';
 import toast, { Toaster } from "react-hot-toast"
+import { trackPromise } from "react-promise-tracker"
+
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
-    const [isLoggedin, setIsloggedin]= useState(false)
+    const [isLoggedin, setIsloggedin] = useState(false)
 
 
     const navigate = useNavigate()
@@ -20,13 +22,14 @@ const Login = () => {
         email: "",
         password: ""
     }
+
     const [formData, setFormData] = React.useState(initialData)
 
 
     const handleChange = (e) => {
         const { value, name } = e.target;
         setFormData({ ...formData, [name]: value })
-        console.log(formData)
+        // console.log(formData)
     }
 
 
@@ -34,24 +37,36 @@ const Login = () => {
         e.preventDefault()
 
         setLoading(true)
-        const data = await axios.post("http://localhost:8080/auth/login", formData, { withCredentials: true })
-        setLoading(false)
+        try {
+            if (formData.password.length < 6) {
+                return toast.error("Password must be min 6 char")
+            }
+            const data = await trackPromise(axios.post("http://localhost:8080/auth/login", formData, { withCredentials: true }))
 
-        if(data.data.token){
-            localStorage.setItem("token", JSON.stringify(data.data.token))
-        }
-        
-        console.log(data.data.user)
-        if (data.data.success) {
-            setIsloggedin(true)
-            setTimeout(() => {
-                
-            }, 2000)
-            
-            toast.success(data.data.message)
+            setLoading(false)
 
-        } else {
-            toast.error(data.data.message)
+            if (data.data.token) {
+                localStorage.setItem("token", JSON.stringify(data.data.token))
+                localStorage.setItem("userData", JSON.stringify(data.data.user))
+            }
+
+            console.log(data.data.user)
+
+            if (data.data.success) {
+                setIsloggedin(true)
+                toast.success(data.data.message)
+                setTimeout(() => {
+                    navigate("/profile")
+                }, 2000)
+
+
+
+            } else {
+                toast.error(data.data.message)
+            }
+        } catch (error) {
+            toast.error("User not found")
+            console.log(error.message)
         }
     }
 
@@ -67,6 +82,7 @@ const Login = () => {
             justifyContent="center"
             style={{ minHeight: '100vh' }}
         >
+            {/* <Navbar /> */}
             <Toaster />
             <form onSubmit={handleLogin} style={{ "margin": "auto" }}>
                 <Grid container spacing={2}
@@ -108,6 +124,7 @@ const Login = () => {
                             type="password"
                             label="Password" variant="outlined" />
                     </Grid>
+
                     <Grid xs={12}>
                         <Button
                             type='submit'
@@ -115,6 +132,17 @@ const Login = () => {
                             fullWidth
                             disableElevation>
                             Login
+                        </Button>
+                    </Grid>
+                    <Grid xs={12}>
+                        <Button
+                            onClick={() => {
+                                navigate("/")
+                            }}
+                            variant="contained"
+                            fullWidth
+                            disableElevation>
+                            Click to Signup
                         </Button>
                     </Grid>
 
