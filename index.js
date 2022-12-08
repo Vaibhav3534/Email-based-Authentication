@@ -25,7 +25,7 @@ const __filename = fileURLToPath(import.meta.url);
 // 👇️ "/home/john/Desktop/javascript"
 const __dirname = path.dirname(__filename)
 
-app.use(express.static("./client_side/build"))
+app.use(express.static(path.resolve(__dirname,"./client_side/build")))
 
 
 app.get("*", function(req, res){
@@ -43,7 +43,7 @@ app.use(cookieParser())
 
 
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("This is Api Route")
 })
 

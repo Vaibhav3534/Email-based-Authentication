@@ -4,8 +4,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start:react": "parcel serve client/index.html --open --dist-dir client/build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
+    
   },
   "repository": {
     "type": "git",
