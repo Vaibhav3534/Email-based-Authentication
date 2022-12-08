@@ -10,14 +10,14 @@ const Calculator = () => {
     }
     const [result, setResult] = React.useState(0)
     const [input, setInput] = React.useState(initialData)
-    
+
     React.useEffect(() => {
         console.log(result)
     }, [result])
 
     const handleAdd = async () => {
         try {
-            const data = await axios.post("http://localhost:8080/add", { input })
+            const data = await axios.post("/add", { input })
 
             const result = data.data.sum
             setResult(result)

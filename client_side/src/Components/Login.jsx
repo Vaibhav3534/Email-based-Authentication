@@ -42,7 +42,7 @@ const Login = () => {
                 return toast.error("Password must be min 6 char")
             }
             console.log("test")
-            const data = await trackPromise(axios.post("http://localhost:8080/auth/login", formData, { withCredentials: true }))
+            const data = await trackPromise(axios.post("/auth/login", formData, { withCredentials: true }))
 
             setLoading(false)
 

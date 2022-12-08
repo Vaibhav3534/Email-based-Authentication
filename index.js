@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 import { fileURLToPath } from 'url';  //for cyclic deploy
 import userModel from "./models/userModel.js"
 import mongoose from "mongoose";
+import path from "path";
+
 
 const user = userModel
 
@@ -18,6 +20,11 @@ const app = express();
 mongoose.set('strictQuery', true);
 app.set('view engine', 'ejs');
 
+const __filename = fileURLToPath(import.meta.url);
+
+// 👇️ "/home/john/Desktop/javascript"
+const __dirname = path.dirname(__filename)
+
 app.use(express.static(path.join(__dirname, "./client_side/build")))
 app.get("*", function(_, res){
     res.sendFile(path.join(__dirname, "./client_side/build/index.html"),
@@ -27,11 +34,11 @@ app.get("*", function(_, res){
 })
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors({
-    credentials: true,
-    origin: "http://localhost:3000",
-}))
-// app.use(cors)
+// app.use(cors({
+//     credentials: true,
+//     origin: "http://localhost:3000",
+// }))
+app.use(cors())
 app.use(cookieParser())
 
 
