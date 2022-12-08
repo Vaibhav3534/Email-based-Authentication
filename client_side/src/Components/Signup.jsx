@@ -60,7 +60,7 @@ const Signup = () => {
                 setStatus(true)
                 console.log(status)
                 const data = await trackPromise(
-                    axios.post("https://apppp.onrender.com/auth/register", inputData))
+                    axios.post("http://localhost:8080/auth/register", inputData))
                 // toast.loading()
 
                 setStatus(false)

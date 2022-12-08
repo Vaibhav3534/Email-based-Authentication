@@ -23,9 +23,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors({
     credentials: true,
-    origin: "https://email-based-authentication-74nz-opo1qaoo4-vaibhav3534.vercel.app",
+    origin: "http://localhost:3000",
 }))
-// app.use(cors())
+// app.use(cors)
 app.use(cookieParser())
 
 
