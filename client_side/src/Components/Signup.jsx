@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import bcrypt from "bcryptjs"
+
 import toast, { Toaster } from "react-hot-toast"
 import { duration } from '@mui/material';
 import { check } from "express-validator"
