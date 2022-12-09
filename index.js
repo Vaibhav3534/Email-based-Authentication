@@ -13,6 +13,17 @@ import path from "path";
 
 const user = userModel
 
+// console.log(port)
+const port = 8080
+app.listen(port, async (req, res) => {
+    try {
+        await connection;
+        console.log("connected to database")
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
 dotenv.config()
 
 
@@ -86,14 +97,5 @@ app.post("/add", async(req, res)=>{
 })
 
 
-// console.log(port)
-const port = 8080
-app.listen(port, async (req, res) => {
-    try {
-        await connection;
-        console.log("connected to database")
-    } catch (error) {
-        console.log(error.message)
-    }
-})
+
 
