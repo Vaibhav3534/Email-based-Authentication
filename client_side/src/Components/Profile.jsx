@@ -13,13 +13,14 @@ const Profile = () => {
   const navigate = useNavigate()
 
   // React.useEffect(() => {
-  //   if(!status)
-  //   navigate("/register")
-  // },[status])
+  //   
+  // })
 
   const token = JSON.parse(localStorage.getItem("token")) || null
   const userData = JSON.parse(localStorage.getItem("userData"))
   console.log("token  " + token)
+
+  getData(token)
 
   const getData = async (token) => {
     const data = await axios.post("https://erin-goldfish-coat.cyclic.app/api/check", { "token": token },)
@@ -27,14 +28,14 @@ const Profile = () => {
     console.log(data.data.success)
     setStatus(data.data.success)
   }
-  if (token) {
-    try {
-      getData(token)
-    } catch (error) {
-      alert("no")
-    }
+  // if (token) {
+  //   try {
+  //     getData(token)
+  //   } catch (error) {
+  //     alert("no")
+  //   }
 
-  }
+  // }
 
   const handleLogout = async () => {
     localStorage.removeItem("token")
