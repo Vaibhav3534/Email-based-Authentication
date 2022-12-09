@@ -22,6 +22,17 @@ app.use(cookieParser())
 app.set('view engine', 'ejs');
 
 
+const port = 8080
+app.listen(port, async () => {
+    try {
+        await connection;
+        console.log("connected to database")
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
+
 app.use("/api/auth", authRouter)
 
 app.get("/api", (req, res) => {
@@ -84,13 +95,5 @@ app.get("*", function(req, res){
 
 
 // console.log(port)
-const port = 8080
-app.listen(port, async () => {
-    try {
-        await connection;
-        console.log("connected to database")
-    } catch (error) {
-        console.log(error.message)
-    }
-})
+
 
