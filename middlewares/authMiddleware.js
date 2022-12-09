@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken"
 // import cookieParser from "cookie-parser";
+import express from "express"
+import dotenv from "dotenv"
 
+dotenv.config()
+const Auth = express.Router()
 
 const checkAuth = (req, res, next) => {
     
@@ -29,5 +33,20 @@ const checkAuth = (req, res, next) => {
     }
 }
 
+Auth.post("/auth", checkAuth, (err, res) => {
+    
+    if (res) {
+        console.log("auth passed")
+        console.log()
+        res
+            .status(201)
+            .send({success:true, message: "Authorized" })
+    }
+    else {
+        console.log(err)
+        res.send(err)
+    }
+})
 
-export default checkAuth
+
+export default Auth

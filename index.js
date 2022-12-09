@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';  //for cyclic deploy
 import userModel from "./models/userModel.js"
 import mongoose from "mongoose";
 import path from "path";
+import Auth from "./middlewares/authMiddleware.js";
 
 dotenv.config()
 
@@ -45,20 +46,7 @@ app.get("/app", (req, res)=>{
 })
 
 //check Authorized user
-app.post("api/check", checkAuth, (err, res) => {
-    
-    if (res) {
-        console.log("auth passed")
-        console.log()
-        res
-            .status(201)
-            .send({success:true, message: "Authorized" })
-    }
-    else {
-        console.log(err)
-        res.send(err)
-    }
-})
+app.use("/api/check", Auth)
 
 app.post("/add", async(req, res)=>{
     const {num1, num2} = req.body.input

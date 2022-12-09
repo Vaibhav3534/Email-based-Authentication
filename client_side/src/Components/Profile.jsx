@@ -17,7 +17,7 @@ const Profile = () => {
   //   navigate("/register")
   // },[status])
 
-  const token = JSON.parse(localStorage.getItem("token"))
+  const token = JSON.parse(localStorage.getItem("token")) || null
   const userData = JSON.parse(localStorage.getItem("userData"))
   console.log("token  " + token)
 
