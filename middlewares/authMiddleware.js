@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken"
 
 
 const checkAuth = (req, res, next) => {
-
+    
     try {
+        console.log("inside checkAuth")
         const token = req.body.token;
         console.log(token)
 
