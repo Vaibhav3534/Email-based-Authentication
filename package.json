@@ -4,16 +4,16 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:react": "parcel serve client/index.html --open --dist-dir client/build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "server":"nodemon index.js"
     
-  },
-  "repository": {
+},
+  "repository":{
     "type": "git",
     "url": "git+https://github.com/Vaibhav3534/Email-based-Authentication.git"
   },
   "keywords": [],
+
   "author": "",
   "license": "ISC",
   "bugs": {

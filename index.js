@@ -10,47 +10,31 @@ import userModel from "./models/userModel.js"
 import mongoose from "mongoose";
 import path from "path";
 
-
-const user = userModel
-
 dotenv.config()
 
 
 const app = express();
-mongoose.set('strictQuery', true);
-app.set('view engine', 'ejs');
-
-const __filename = fileURLToPath(import.meta.url);
-
-// 👇️ "/home/john/Desktop/javascript"
-const __dirname = path.dirname(__filename)
-
-app.use(express.static(path.resolve(__dirname,"./client_side/build")))
-
-
-app.get("*", function(req, res){
-    res.sendFile(path.resolve(__dirname, "client_side", "build", "index.html"))
-})
-
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-// app.use(cors({
-//     credentials: true,
-//     origin: "http://localhost:3000",
-// }))
 app.use(cors())
 app.use(cookieParser())
 
+app.set('view engine', 'ejs');
 
+
+app.use("/api/auth", authRouter)
 
 app.get("/api", (req, res) => {
-    res.send("This is Api Route")
+    console.log("inside api")
+    res.send(res)
 })
 
-app.use("/auth", authRouter)
+app.get("/app", (req, res)=>{
+    res.send("thiis is api")
+})
 
 //check Authorized user
-app.post("/check", checkAuth, (err, res) => {
+app.post("api/check", checkAuth, (err, res) => {
     
     if (res) {
         console.log("auth passed")
@@ -65,8 +49,6 @@ app.post("/check", checkAuth, (err, res) => {
     }
 })
 
-
-//post api for addition
 app.post("/add", async(req, res)=>{
     const {num1, num2} = req.body.input
     console.log("into api", req.body)
@@ -86,9 +68,24 @@ app.post("/add", async(req, res)=>{
 })
 
 
+
+// 👇️ "/home/john/Desktop/javascript"
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname,"./client_side/build")))
+app.get("*", function(req, res){
+    res.sendFile(path.join(__dirname, "./client_side/build/index.html"))
+})
+
+//post api for addition
+
+
+
 // console.log(port)
 const port = 8080
-app.listen(port, async (req, res) => {
+app.listen(port, async () => {
     try {
         await connection;
         console.log("connected to database")

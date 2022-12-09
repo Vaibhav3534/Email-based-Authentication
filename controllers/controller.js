@@ -129,7 +129,7 @@ const sendVerifyMail = async (name, email, id) => {
             to: email,
             subject: "VERIFICATION MAIL",
             text: `Hi ${name} this is a verification mail`,
-            html: `<h1> Hi ${name}, Please click here to <a  href="http://localhost:8080/auth?id=${id}" target="_blank">Verify</a> your mail</h1>`
+            html: `<h1> Hi ${name}, Please click here to <a  href="/api/auth/verify?id=${id}" target="_blank">Verify</a> your mail</h1>`
         }
 
         const info = await transporter.sendMail(mail)
@@ -143,7 +143,7 @@ const sendVerifyMail = async (name, email, id) => {
 
 
 //API to verify mail and render webpage
-authRouter.get("/", async (req, res) => {
+authRouter.get("/verify", async (req, res) => {
     try {
         console.log(req.query.id)
         const updatedData = await User.updateOne({ _id: req.query.id }, { $set: { verified: true } })
