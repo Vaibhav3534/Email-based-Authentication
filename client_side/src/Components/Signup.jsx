@@ -60,7 +60,7 @@ const Signup = () => {
                 setStatus(true)
                 console.log(status)
                 const data = await trackPromise(
-                    axios.post("/api/auth/register", inputData))
+                    axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/register", inputData))
                 // toast.loading()
 
                 setStatus(false)
