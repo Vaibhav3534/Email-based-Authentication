@@ -2,10 +2,10 @@
   "name": "client_side",
   "version": "0.1.0",
   "private": true,
-
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.10.16",
     "@testing-library/jest-dom": "^5.16.5",
@@ -51,7 +51,6 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC"

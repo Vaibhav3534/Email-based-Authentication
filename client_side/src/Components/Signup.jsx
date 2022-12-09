@@ -103,7 +103,7 @@ const Signup = () => {
             style={{ minHeight: '100vh' }}
         >
             {/* <Toaster/> */}
-            <div style={{"position":"absolute", "marginTop":"100px"}}><Toaster/></div>
+            <Toaster containerStyle={{marginTop:"50px"}}/>
             <div style={{"position":"absolute", "marginTop":"100px"}}><Loadind/></div>
             
             

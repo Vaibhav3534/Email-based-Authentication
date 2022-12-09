@@ -10,11 +10,16 @@ import { useNavigate } from "react-router-dom"
 import { AuthContext } from './AuthContext/AuthContext';
 import toast, { Toaster } from "react-hot-toast"
 import { trackPromise } from "react-promise-tracker"
-
+import Loadind from '../Loadind';
+import { IconButton, InputAdornment } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import FormDialog from './ForgotPassword';
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
     const [isLoggedin, setIsloggedin] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
 
     const navigate = useNavigate()
@@ -42,7 +47,7 @@ const Login = () => {
                 return toast.error("Password must be min 6 char")
             }
             console.log("test")
-            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/login", formData, ))
+            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/login", formData,))
 
             setLoading(false)
 
@@ -55,7 +60,9 @@ const Login = () => {
 
             if (data.data.success) {
                 setIsloggedin(true)
-                toast.success(data.data.message)
+                toast.success(data.data.message, {
+                    style: { color: "white" }
+                })
                 setTimeout(() => {
                     navigate("/profile")
                 }, 2000)
@@ -63,7 +70,9 @@ const Login = () => {
 
 
             } else {
-                toast.error(data.data.message)
+                toast.error(data.data.message, {
+                    style: { color: "white", backgroundColor: "black" }
+                })
             }
         } catch (error) {
             toast.error("User not found")
@@ -71,7 +80,17 @@ const Login = () => {
         }
     }
 
+    const handleForgotPassword =()=>{
 
+    }
+
+    const handleMouseLeave = () => {
+        setShowPassword(false)
+    }
+
+    const handleMouseEnter = () => {
+        setShowPassword(true)
+    }
 
 
     return (
@@ -84,7 +103,34 @@ const Login = () => {
             style={{ minHeight: '100vh' }}
         >
             {/* <Navbar /> */}
-            <Toaster />
+            <Toaster
+                containerStyle={{ marginTop: "50px", }}
+                toastOptions={{
+                    className: '',
+                    style: {
+                        border: '2px solid #1976d2',
+                        // padding: '16px',
+                        color: '#FFFFFF',
+                        textDecorationColor: "white"
+                    },
+                    success: {
+                        iconTheme: {
+                            primary: 'green',
+                            secondary: 'white',
+                        },
+                        style: {
+                            color: "white",
+                            backgroundColor: "black"
+                        }
+                    },
+                    error: {
+
+                    }
+                }}
+            />
+
+            <div style={{ "position": "absolute", "marginTop": "100px" }}><Loadind /></div>
+
             <form onSubmit={handleLogin} style={{ "margin": "auto" }}>
                 <Grid container spacing={2}
                     sx={{
@@ -122,8 +168,31 @@ const Login = () => {
                             // value={password}
                             onChange={handleChange}
                             // minRows={10}
-                            type="password"
-                            label="Password" variant="outlined" />
+                            type={showPassword ? "text" : "password"}
+                            label="Password" variant="outlined"
+                            InputProps={{
+                                endAdornment:
+                                    // type ? "password" (
+                                    <InputAdornment position='end' sx={{ "backgroundColor": "rgb(232, 240, 254)" }}>
+                                        <IconButton sx={{ "backgroundColor": "rgb(232, 240, 254)" }}
+                                            onMouseEnter={handleMouseEnter}
+                                            onMouseLeave={handleMouseLeave}
+                                            edge="end"
+                                        >
+                                            {!showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                // ): null
+                            }}
+                        />
+                        {/* <Button variant="text" 
+                                size='small'
+                                onClick={handleForgotPassword}
+                                >
+                            Forgot password
+                        </Button> */}
+                        <FormDialog/>
+
                     </Grid>
 
                     <Grid xs={12}>
