@@ -125,7 +125,7 @@ authRouter.post("/forgotpassword/sendotp", async(req, res)=>{
 authRouter.post("/forgotpassword/update", (req, res)=>{
     try {
         const {email, password, cPassword} = req.body;
-        const userCheck = 
+        // const userCheck = 
     } catch (error) {
         res.status(501).send({success:false, message:"Internal server error"})
         console.log(error.message)
