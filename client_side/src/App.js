@@ -7,6 +7,7 @@ import Login from './Components/Login';
 import Profile from './Components/Profile';
 import ButtonAppBar from './Components/Navbar';
 import Calculator from './Components/calculator';
+import FormDialog from './Components/ForgotPassword';
 
 function App() {
 
@@ -17,12 +18,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Signup />} />
         <Route path='/login' element={<Login />} />
-
         <Route path='/profile' element={<Profile/>}/>
-        {/* <Route path='/profile' element={<Profile/>}/> */}
         <Route path='/add' element={<Calculator/>}/>
+        <Route path='/forgotpassword' element={<FormDialog/>} />
       </Routes>
-      
       
     </div>
   );

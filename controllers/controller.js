@@ -5,6 +5,7 @@ import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken"
+import otpGenerator from "otp-generator"
 
 dotenv.config()
 const authRouter = express.Router()
@@ -92,6 +93,45 @@ authRouter.post("/login", async (req, res) => {
     }
 })
 
+authRouter.post("/forgotpassword/sendotp", async(req, res)=>{
+    try {
+        const{email} = req.body
+        const user = await User.findOne({email:email})
+
+        if(!user){
+            res
+                .status(401)
+                .send({success:false, message:"User not found"})
+        }
+
+        const otp = otpGenerator.generate(6, 
+            {  specialChars:false,
+                digits:true,
+                lowerCaseAlphabets:false,
+                upperCaseAlphabets:false
+             })
+
+        console.log(otp)
+        
+        await sendOtp(user.first_name, email, otp)
+
+        res.status(201).send({success:true,otp:otp, message:"OTP sent"})
+
+    } catch (error) {
+        res.send(error.message)
+    }
+})
+
+authRouter.post("/forgotpassword/update", (req, res)=>{
+    try {
+        const {email, password, cPassword} = req.body;
+        const userCheck = 
+    } catch (error) {
+        res.status(501).send({success:false, message:"Internal server error"})
+        console.log(error.message)
+    }
+})
+
 
 //Function to create Token for Aurhorization
 const generateAuthToken = function (user) {
@@ -141,6 +181,32 @@ const sendVerifyMail = async (name, email, id) => {
     }
 }
 
+const sendOtp = async(name, email, otp)=>{
+    try {
+        const transporter = nodemailer.createTransport({
+            host:"smtp.gmail.com",
+            port:587,
+            secure:false,
+            auth:{
+                user:"teamxrsmokie@gmail.com",
+                pass:process.env.G_APP_PASSWORD
+            }
+        })
+
+        const mail ={
+            from:"teamxrsmokie@gmail.com",
+            to:email,
+            subject:"OTP to reset password",
+            html:`<p>Hi <span><h3>${name}</h3></span> your OTP to reset password is<h1> ${otp} </h1></p>`
+        }
+        await transporter.sendMail(mail)
+        
+
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 
 //API to verify mail and render webpage
 authRouter.get("/verify", async (req, res) => {
@@ -156,4 +222,5 @@ authRouter.get("/verify", async (req, res) => {
 })
 
 export default authRouter
+export {sendVerifyMail}
 

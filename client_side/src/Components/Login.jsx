@@ -28,6 +28,8 @@ const Login = () => {
         password: ""
     }
 
+
+
     const [formData, setFormData] = React.useState(initialData)
 
 
@@ -80,7 +82,7 @@ const Login = () => {
         }
     }
 
-    const handleForgotPassword =()=>{
+    const handleForgotPassword = () => {
 
     }
 
@@ -124,7 +126,14 @@ const Login = () => {
                         }
                     },
                     error: {
-
+                        iconTheme: {
+                            primary: 'red',
+                            secondary: 'white',
+                        },
+                        style: {
+                            color: "white",
+                            backgroundColor: "black"
+                        }
                     }
                 }}
             />
@@ -191,7 +200,11 @@ const Login = () => {
                                 >
                             Forgot password
                         </Button> */}
-                        <FormDialog/>
+                        {/* <FormDialog /> */}
+                        <Button onClick={()=>navigate("/forgotpassword")}>
+                            Forgot Password
+                        </Button>
+
 
                     </Grid>
 

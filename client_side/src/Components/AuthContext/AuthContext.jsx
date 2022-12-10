@@ -3,7 +3,7 @@ export const AuthContextF = createContext();
 
 const AuthContext = ({ children }) => {
     
-    const [isAuth, setIsAuth] = React.useState()
+    const [isAuth, setIsAuth] = React.useState(false)
     const handleAuth = (value) => {
         setIsAuth(value)
     }
