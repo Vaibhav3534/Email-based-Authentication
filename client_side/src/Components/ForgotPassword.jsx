@@ -21,6 +21,7 @@ export default function FormDialog() {
     const [open, setOpen] = React.useState(true);
     const [otp, setOtp] = React.useState("")
     const [otpSuccess, setOtpSuccess] = React.useState(false)
+    const [otpVerified, setOtpVerified] = React.useState(false)
     const [inputData, setInputData] = React.useState({
         email: "",
         password: "",
@@ -31,7 +32,7 @@ export default function FormDialog() {
     const navigate = useNavigate()
 
     // window.onload= localStorage.removeItem("otp")
-    
+
 
     // React.useEffect(()=>{
     //     console.log(inputData)
@@ -82,12 +83,11 @@ export default function FormDialog() {
         console.log(otp)
 
         if (otp === inputData.otp) {
-            setOtpSuccess(true)
+            setOtpVerified(true)
             toast.success("OTP verified")
         } else {
             toast.error("Incorrect OTP")
         }
-
 
     }
 
@@ -108,18 +108,18 @@ export default function FormDialog() {
 
         try {
             console.log("first")
-            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/forgotPassword/update", {inputData}))
+            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/forgotPassword/update", { inputData }))
             console.log(data)
             console.log("hemlo")
-            if(data.data.success){
+            if (data.data.success) {
                 localStorage.removeItem("otp")
                 toast.success(data.data.message)
-                
+
                 e.target.reset()
-                setTimeout(()=>{
+                setTimeout(() => {
                     navigate("/login")
                 }, 2200)
-            }else{
+            } else {
                 toast.error(data.data.message)
             }
 
@@ -248,18 +248,32 @@ export default function FormDialog() {
                                 />
                                 <MuiOtpInput
                                     // aria-disabled={true}
-                                    TextFieldsProps={{ disabled: !otpSuccess, size: 'small', placeholder: '-' }}
+                                    TextFieldsProps={{ disabled: otpVerified, size: 'small', placeholder: '-' }}
                                     // aria-current={true}
+
+                                    // itemType='undefined'
+                                    inputMode="tel"
+
+
                                     sx={{ width: 350, paddingTop: "10px", paddingBottom: "10px" }}
                                     value={otp}
-                                    typeof="number"
+
                                     placeholder='otp'
                                     validateChar={validateChar1}
                                     length={6}
                                     onChange={handleOtpchange}
                                     onComplete={handleOtpComplete} />
 
-                                <Button variant='outlined' onClick={handleOTP}>Send OTP</Button>
+                                <Button
+                                    disabled={otpVerified}
+                                    sx={otpVerified ? {backgroundColor:"transparent"} : null}
+                                    variant='contained'
+                                    onClick={handleOTP}
+                                >
+                                    {
+                                        otpVerified ? `OTP Verified \u2705` : (!otpSuccess ? `Send OTP` : `Resend OTP`)
+                                    }
+                                </Button>
 
                                 <Button
                                     sx={{ marginTop: 1, }}
