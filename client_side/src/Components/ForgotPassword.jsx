@@ -267,7 +267,7 @@ export default function FormDialog() {
                                 <Button
                                     disabled={otpVerified}
                                     sx={otpVerified ? {backgroundColor:"transparent"} : null}
-                                    variant='contained'
+                                    // variant='contained'
                                     onClick={handleOTP}
                                 >
                                     {
