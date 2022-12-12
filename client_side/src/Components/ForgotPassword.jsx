@@ -14,6 +14,7 @@ import { Toaster } from 'react-hot-toast';
 import { MuiOtpInput } from "mui-one-time-password-input"
 import { trackPromise } from "react-promise-tracker"
 import Loadind from '../Loadind';
+import { useNavigate, redirect } from 'react-router-dom';
 
 
 export default function FormDialog() {
@@ -26,6 +27,11 @@ export default function FormDialog() {
         cPassword: "",
 
     })
+
+    const navigate = useNavigate()
+
+    // window.onload= localStorage.removeItem("otp")
+    
 
     // React.useEffect(()=>{
     //     console.log(inputData)
@@ -89,7 +95,7 @@ export default function FormDialog() {
         e.preventDefault()
         const { email, password, cPassword, otp } = inputData
 
-        console.log(otp)
+        console.log(inputData)
         if (email == "" || password == "" || cPassword == "" || otp == 0 || otp == undefined) {
             return toast.error("Please enter OTP")
         }
@@ -99,10 +105,26 @@ export default function FormDialog() {
         if (inputData.password !== inputData.cPassword) {
             return toast.error("Password doesn't match")
         }
+
         try {
-            // const data = await axios.post("/forgotPassword/updatepassword")
+            console.log("first")
+            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/forgotPassword/update", {inputData}))
+            console.log(data)
+            console.log("hemlo")
+            if(data.data.success){
+                localStorage.removeItem("otp")
+                toast.success(data.data.message)
+                
+                e.target.reset()
+                setTimeout(()=>{
+                    navigate("/login")
+                }, 2200)
+            }else{
+                toast.error(data.data.message)
+            }
 
         } catch (error) {
+            console.log(error)
             console.log(error.message)
         }
     }
@@ -117,12 +139,12 @@ export default function FormDialog() {
                 console.log(data.data.otp)
 
                 localStorage.setItem("otp", JSON.stringify(data.data.otp))
-                setOtpSuccess(false)
+                setOtpSuccess(true)
                 toast.success(data.data.message)
 
             } else {
                 console.log(data)
-                // toast.error(data.data.message)
+                toast.error(data.data.message)
             }
         } catch (error) {
             toast.error("Internal server error")
@@ -225,8 +247,8 @@ export default function FormDialog() {
                                     variant="standard"
                                 />
                                 <MuiOtpInput
-                                    aria-disabled={true}
-                                    TextFieldsProps={{ disabled: otpSuccess, size: 'small', placeholder: '-' }}
+                                    // aria-disabled={true}
+                                    TextFieldsProps={{ disabled: !otpSuccess, size: 'small', placeholder: '-' }}
                                     // aria-current={true}
                                     sx={{ width: 350, paddingTop: "10px", paddingBottom: "10px" }}
                                     value={otp}

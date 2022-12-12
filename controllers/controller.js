@@ -58,7 +58,7 @@ authRouter.post("/login", async (req, res) => {
         if (!user) {
             console.log("No user found")
             return res
-                .status(400)
+                .status(201)
                 .send({ success: false, message: "User not registered! Please Register" })
         }
 
@@ -123,14 +123,39 @@ authRouter.post("/forgotpassword/sendotp", async(req, res)=>{
     }
 })
 
-authRouter.post("/forgotpassword/update", (req, res)=>{
+authRouter.post("/forgotpassword/update", async(req, res)=>{
     try {
-        const {email, password, cPassword} = req.body;
-        // const userCheck = 
+        
+        const {email, password, cPassword} = req.body.inputData;
+        console.log(email)
+        const user = await User.findOne({email:email})
+
+        if(!user){
+            return res
+                    .status(201)
+                    .send({success: false, message:"User not found"})
+        }
+
+        if(password !== cPassword){
+            return res
+                    .status(201)
+                    .send({success:false, message:"Password do not match"})
+        }
+
+        const encryptedPassword = await bcrypt.hash(password, 12)
+        user.password = encryptedPassword
+
+        await user.save()
+        console.log("ended")
+
+        return res
+                .status(201)
+                .send({success: true, message:"Password updated"})
+                
+
     } catch (error) {
         console.log(error.message)
-        res.status(501).send({success:false, message:"Internal server error"})
-        
+        return res.status(501).send({success:false, message:"Internal server error"})
     }
 })
 

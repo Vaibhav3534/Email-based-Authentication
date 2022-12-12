@@ -49,7 +49,7 @@ const Login = () => {
                 return toast.error("Password must be min 6 char")
             }
             console.log("test")
-            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/login", formData,))
+            const data = await trackPromise(axios.post("http://localhost:8080/api/auth/login", formData,))
 
             setLoading(false)
 
@@ -58,7 +58,7 @@ const Login = () => {
                 localStorage.setItem("userData", JSON.stringify(data.data.user))
             }
 
-            console.log(data.data.user)
+            // console.log(data.data.user)
 
             if (data.data.success) {
                 setIsloggedin(true)
@@ -77,7 +77,7 @@ const Login = () => {
                 })
             }
         } catch (error) {
-            toast.error("User not found")
+            toast.error("error")
             console.log(error.message)
         }
     }
@@ -170,7 +170,7 @@ const Login = () => {
                             label="Email" variant="outlined" />
                     </Grid>
                     <Grid xs={12}>
-                        <TextField id="outlined-basic"
+                        <TextField id="outlined-basic-2"
                             fullWidth
                             required
                             name='password'

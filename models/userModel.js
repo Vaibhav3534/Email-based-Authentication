@@ -10,11 +10,12 @@ const userSchema = new mongoose.Schema({
     email:{type:String, required:true, unique:true},
     password:{type:String, required:true },
     verified:{type:Boolean, required:true, default:false },
-})
+    created_at:{type:Date, required:true, default:Date.now}
+}, {timestamps:true})
 
-userSchema.path("password").validate(function(s){
-    return s.length > 6
-})
+// userSchema.path("password").validate(function(s){
+//     return s.length > 6
+// })
 
 const userModel = mongoose.model("Users" ,userSchema)
 
