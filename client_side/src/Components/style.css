@@ -1,0 +1,23 @@
+
+
+@media (max-width: 400px){
+    .card{
+        /* background-color: #ffff00; */
+        /* width: 650px; */
+    }
+    #card{
+        width: 100%;
+    }
+}
+
+@media (min-width:400px) and (max-width:600px){
+    #card{
+        width: 400px;
+    }
+}
+
+@media (min-width:600px){
+    #card{
+        width:50%
+    }
+}

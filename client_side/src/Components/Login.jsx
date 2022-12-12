@@ -15,6 +15,7 @@ import { IconButton, InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FormDialog from './ForgotPassword';
+import "./style.css"
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
@@ -140,8 +141,10 @@ const Login = () => {
 
             <div style={{ "position": "absolute", "marginTop": "100px" }}><Loadind /></div>
 
-            <form onSubmit={handleLogin} style={{ "margin": "auto" }}>
+            <form onSubmit={handleLogin}  style={{ "margin": "auto" }}>
                 <Grid container spacing={2}
+                    className="card"
+                    id="card"
                     sx={{
                         width: "50%",
                         margin: "auto",

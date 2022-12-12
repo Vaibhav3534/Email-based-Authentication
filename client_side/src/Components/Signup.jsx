@@ -10,6 +10,7 @@ import { duration } from '@mui/material';
 import { check } from "express-validator"
 import { trackPromise } from "react-promise-tracker"
 import Loadind from '../Loadind';
+import "./style.css"
 
 
 
@@ -110,6 +111,7 @@ const Signup = () => {
             <form onSubmit={handleSubmit} style={{ "margin": "auto" }}>
             
                 <Grid container spacing={2}
+                    id="card"
                     sx={{
                         width: "50%",
                         margin: "auto",

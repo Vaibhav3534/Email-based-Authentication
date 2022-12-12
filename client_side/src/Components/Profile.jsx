@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom"
 import toast, { Toaster } from 'react-hot-toast';
+import "./style.css"
 
 const Profile = () => {
   const [status, setStatus] = React.useState()
@@ -75,15 +76,17 @@ const Profile = () => {
 
 
           <Grid container spacing={1}
+            id="card"
+            className='card'
             sx={{
-              width: "50%",
+              // width: "50%",
               margin: "auto",
               // padding:"auto",
               // backgroundColor:"whitesmoke",
               boxShadow: "2px 2px 5px 2px rgba(0,0,0,0.2)",
               borderRadius: "8px",
               // height: "50vh",
-              maxWidth: "50%",
+              // maxWidth: "50%",
               display: "flex",
               // flexDirection:"row",
               justifyContent: "space-between",
