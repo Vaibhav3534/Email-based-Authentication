@@ -17,7 +17,7 @@ const Calculator = () => {
 
     const handleAdd = async () => {
         try {
-            const data = await axios.post("/add", { input })
+            const data = await axios.post("https://erin-goldfish-coat.cyclic.app/api/add", { input })
 
             const result = data.data.sum
             setResult(result)

@@ -111,7 +111,7 @@ export default function FormDialog() {
         try {
 
             const { email } = inputData
-            const data = await trackPromise(axios.post("http://localhost:8080/api/auth/forgotpassword/sendotp", inputData))
+            const data = await trackPromise(axios.post("https://erin-goldfish-coat.cyclic.app/api/auth/forgotpassword/sendotp", inputData))
             // console.log(data.data)
             if (data.data.success) {
                 console.log(data.data.otp)
