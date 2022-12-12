@@ -100,7 +100,7 @@ export default function FormDialog() {
             return toast.error("Password doesn't match")
         }
         try {
-            const data = await axios.post("/forgotPassword/updatepassword")
+            // const data = await axios.post("/forgotPassword/updatepassword")
 
         } catch (error) {
             console.log(error.message)
