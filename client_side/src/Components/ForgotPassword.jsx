@@ -121,7 +121,8 @@ export default function FormDialog() {
                 toast.success(data.data.message)
 
             } else {
-                toast.error(data.data.message)
+                console.log(data)
+                // toast.error(data.data.message)
             }
         } catch (error) {
             toast.error("Internal server error")

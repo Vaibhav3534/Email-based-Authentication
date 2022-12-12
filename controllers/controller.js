@@ -100,7 +100,7 @@ authRouter.post("/forgotpassword/sendotp", async(req, res)=>{
 
         if(!user){
             res
-                .status(401)
+                .status(201)
                 .send({success:false, message:"User not found"})
         }
 
@@ -118,6 +118,7 @@ authRouter.post("/forgotpassword/sendotp", async(req, res)=>{
         res.status(201).send({success:true,otp:otp, message:"OTP sent"})
 
     } catch (error) {
+        console.log(error)
         res.send(error.message)
     }
 })
