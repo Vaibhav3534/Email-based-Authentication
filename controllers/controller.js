@@ -127,8 +127,9 @@ authRouter.post("/forgotpassword/update", (req, res)=>{
         const {email, password, cPassword} = req.body;
         // const userCheck = 
     } catch (error) {
-        res.status(501).send({success:false, message:"Internal server error"})
         console.log(error.message)
+        res.status(501).send({success:false, message:"Internal server error"})
+        
     }
 })
 
