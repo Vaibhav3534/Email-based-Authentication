@@ -85,13 +85,11 @@ const Profile = () => {
               // backgroundColor:"whitesmoke",
               boxShadow: "2px 2px 5px 2px rgba(0,0,0,0.2)",
               borderRadius: "8px",
-              // height: "50vh",
-              // maxWidth: "50%",
+
               display: "flex",
-              // flexDirection:"row",
+
               justifyContent: "space-between",
-              // position:"absolute",
-              // marginTop:"10px",
+
               padding: "20px"
             }}>
 

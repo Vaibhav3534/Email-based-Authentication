@@ -83,9 +83,9 @@ const Login = () => {
         }
     }
 
-    const handleForgotPassword = () => {
+    // const handleForgotPassword = () => {
 
-    }
+    // }
 
     const handleMouseLeave = () => {
         setShowPassword(false)

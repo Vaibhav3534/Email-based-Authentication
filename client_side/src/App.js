@@ -16,7 +16,8 @@ function App() {
     
     <ButtonAppBar/>
       <Routes>
-        <Route path='/' element={<Signup />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/register' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/add' element={<Calculator/>}/>
