@@ -6,11 +6,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 export default function ButtonAppBar() {
 
   const [isLogin, setIsLogin] = React.useState(false)
-
+  const navigate = useNavigate()
   return (
     <Box sx={{ flexGrow: 1 , position:"fixed", width:"100%"}}>
       <AppBar position="static">
@@ -24,11 +25,19 @@ export default function ButtonAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6"  component="div" sx={{ flexGrow: 1 }}>
             Email Authentication App
           </Typography>
-          {/* <Button color="inherit">Login</Button>
-          <Button color="inherit">Login</Button> */}
+          <Button color="inherit" onClick={()=>{
+            navigate("/profile")
+          }}>Profile</Button>
+          <Button color="inherit" onClick={()=>{
+            navigate("/")
+          }}>Home</Button>
+          <Button color="inherit" onClick={()=>{
+            navigate("/login")
+          }}>Login</Button>
+          {/* <Button color="inherit" onClick={()=>navigate("")}>Signup</Button> */}
         </Toolbar>
       </AppBar>
     </Box>

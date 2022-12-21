@@ -16,12 +16,16 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FormDialog from './ForgotPassword';
 import "./style.css"
+import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
     const [isLoggedin, setIsloggedin] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
 
+    const dispatch = useDispatch()
+
+    const isAuth = useSelector((store)=>store.auth)
 
     const navigate = useNavigate()
     const initialData = {
@@ -63,6 +67,7 @@ const Login = () => {
 
             if (data.data.success) {
                 setIsloggedin(true)
+                dispatch()
                 toast.success(data.data.message, {
                     style: { color: "white" }
                 })

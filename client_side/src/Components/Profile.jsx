@@ -17,7 +17,7 @@ const Profile = () => {
   // React.useEffect(() => {
   //   getData(token)
   // })
-
+console.log("hemlo")
   const token = JSON.parse(localStorage.getItem("token")) || null
   const userData = JSON.parse(localStorage.getItem("userData"))
   console.log("token  " + token)
@@ -73,8 +73,6 @@ const Profile = () => {
       />
       {
         status ?
-
-
           <Grid container spacing={1}
             id="card"
             className='card'
