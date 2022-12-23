@@ -27,12 +27,12 @@ const Login = () => {
 
     const isAuth = useSelector((store)=>store.auth)
 
+    console.log("just entered login function  "+ isAuth)
     const navigate = useNavigate()
     const initialData = {
         email: "",
         password: ""
     }
-
 
 
     const [formData, setFormData] = React.useState(initialData)
@@ -67,7 +67,7 @@ const Login = () => {
 
             if (data.data.success) {
                 setIsloggedin(true)
-                dispatch()
+                dispatch({type:"LOGIN"})
                 toast.success(data.data.message, {
                     style: { color: "white" }
                 })
@@ -228,7 +228,7 @@ const Login = () => {
                     <Grid xs={12}>
                         <Button
                             onClick={() => {
-                                navigate("/")
+                                navigate("/register")
                             }}
                             variant="contained"
                             fullWidth
